@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int main() {
+    int a, b;
+
+    // Input values of a and b
+    printf("Enter values of a and b for the affine Caesar cipher: ");
+    scanf("%d %d", &a, &b);
+
+    // Check if b is coprime to 26
+    int temp_b = b;
+    int temp_26 = 26;
+    while (temp_26 != 0) {
+        int temp = temp_26;
+        temp_26 = temp_b % temp_26;
+        temp_b = temp;
+    }
+
+    if (temp_b == 1) {
+        printf("b = %d is allowed (coprime to 26).\n", b);
+    } else {
+        printf("b = %d is not allowed. Choose a different value for b.\n", b);
+    }
+
+    // Check which values of a are allowed (coprime to 26)
+    printf("Values of a that are allowed (coprime to 26): ");
+    for (int i = 1; i < 26; i++) {
+        temp_b = i;
+        temp_26 = 26;
+        while (temp_26 != 0) {
+            int temp = temp_26;
+            temp_26 = temp_b % temp_26;
+            temp_b = temp;
+        }
+
+        if (temp_b == 1) {
+            printf("%d ", i);
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
