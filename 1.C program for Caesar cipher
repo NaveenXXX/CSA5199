@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char message[100];
+    int key, i;
+    printf("Enter a message: ");
+    fgets(message, sizeof(message), stdin);
+    for (key = 1; key <= 25; key++) 
+	{
+        for (i = 0; i < strlen(message); i++) {
+            if (message[i] >= 'A' && message[i] <= 'Z') {
+                message[i] = (message[i] - 'A' + key) % 26 + 'A';
+            }
+        }
+        printf("Encrypted message with key %d: %s", key, message);
+        for (i = 0; i < strlen(message); i++) {
+            if (message[i] >= 'A' && message[i] <= 'Z') {
+                message[i] = (message[i] - 'A' - key + 26) % 26 + 'A';
+            }
+        }
+        printf("Decrypted message: %s\n\n", message);
+    }
+
+    return 0;
+}
