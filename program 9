@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 5
+
+void decryptPlayfair(char ciphertext[], char keyTable[SIZE][SIZE]) {
+    // Create a map to store the positions of each letter in the key table
+    int letterMap[26][2];
+
+    // Initialize the letterMap
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            letterMap[keyTable[i][j] - 'A'][0] = i;
+            letterMap[keyTable[i][j] - 'A'][1] = j;
+        }
+    }
+
+    // Decrypt the Playfair cipher
+    for (int i = 0; i < strlen(ciphertext); i += 2) {
+        char first = ciphertext[i];
+        char second = ciphertext[i + 1];
+
+        int row1 = letterMap[first - 'A'][0];
+        int col1 = letterMap[first - 'A'][1];
+        int row2 = letterMap[second - 'A'][0];
+        int col2 = letterMap[second - 'A'][1];
+
+        // Same row
+        if (row1 == row2) {
+            printf("%c%c", keyTable[row1][(col1 - 1 + SIZE) % SIZE], keyTable[row2][(col2 - 1 + SIZE) % SIZE]);
+        }
+        // Same column
+        else if (col1 == col2) {
+            printf("%c%c", keyTable[(row1 - 1 + SIZE) % SIZE][col1], keyTable[(row2 - 1 + SIZE) % SIZE][col2]);
+        }
+        // Different row and column
+        else {
+            printf("%c%c", keyTable[row1][col2], keyTable[row2][col1]);
+        }
+    }
+}
+
+int main
