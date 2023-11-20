@@ -1,0 +1,168 @@
+#include <stdio.h>
+
+void decryptSubstitutionCipher(char ciphertext[]) {
+    for (int i = 0; ciphertext[i] != '\0'; i++) {
+        char currentChar = ciphertext[i];
+
+        // Decrypt letters based on observed patterns
+        if (currentChar == '†') {
+            printf("e");
+        } else if (currentChar == '‡') {
+            printf("t");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '5') {
+            printf("o");
+        } else if (currentChar == '6') {
+            printf("n");
+        } else if (currentChar == '3') {
+            printf("i");
+        } else if (currentChar == '0') {
+            printf("s");
+        } else if (currentChar == ')') {
+            printf("r");
+        } else if (currentChar == ';') {
+            printf("l");
+        } else if (currentChar == ':') {
+            printf("d");
+        } else if (currentChar == '(') {
+            printf("u");
+        } else if (currentChar == '?') {
+            printf("y");
+        } else if (currentChar == '9') {
+            printf("g");
+        } else if (currentChar == '¶') {
+            printf("f");
+        } else if (currentChar == '[') {
+            printf("w");
+        } else if (currentChar == '2') {
+            printf("m");
+        } else if (currentChar == '—') {
+            printf("b");
+        } else if (currentChar == ']') {
+            printf("v");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == '7') {
+            printf("p");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == ':') {
+            printf("d");
+        } else if (currentChar == '?') {
+            printf("y");
+        } else if (currentChar == '5') {
+            printf("o");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '6') {
+            printf("n");
+        } else if (currentChar == '2') {
+            printf("m");
+        } else if (currentChar == '(') {
+            printf("u");
+        } else if (currentChar == '5') {
+            printf("o");
+        } else if (currentChar == '0') {
+            printf("s");
+        } else if (currentChar == '6') {
+            printf("n");
+        } else if (currentChar == ';') {
+            printf("l");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == '0') {
+            printf("s");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == ';') {
+            printf("l");
+        } else if (currentChar == '9') {
+            printf("g");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '(') {
+            printf("u");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == '3') {
+            printf("i");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == ';') {
+            printf("l");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '0') {
+            printf("s");
+        } else if (currentChar == '5') {
+            printf("o");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == ';') {
+            printf("l");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == '3') {
+            printf("i");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '5') {
+            printf("o");
+        } else if (currentChar == ';') {
+            printf("l");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '5') {
+            printf("o");
+        } else if (currentChar == '1') {
+            printf("c");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == ';') {
+            printf("l");
+        } else if (currentChar == '4') {
+            printf("a");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '0') {
+            printf("s");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '8') {
+            printf("h");
+        } else if (currentChar == '0') {
+            printf("s");
+        } else if (currentChar
