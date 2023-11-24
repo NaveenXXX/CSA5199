@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <openssl/aes.h>
+
+// AES block size in bytes
+#define AES_BLOCK_SIZE 16
+
+// Function to perform AES encryption in ECB mode with padding
+void aes_encrypt_ecb(const char *plaintext, const char *key, char *ciphertext) {
+    AES_KEY aes_key;
+    AES_set_encrypt_key((const unsigned char *)key, 128, &aes_key);
+    AES_encrypt((const unsigned char *)plaintext, (unsigned char *)ciphertext, &aes_key);
+}
+
+// Function to perform AES encryption in CBC mode with padding
+void aes_encrypt_cbc(const char *plaintext, const char *key, const char *iv, char *ciphertext) {
+    AES_KEY aes_key;
+    AES_set_encrypt_key((const unsigned char *)key, 128, &aes_key);
+    AES_cbc_encrypt((const unsigned char *)plaintext, (unsigned char *)ciphertext, strlen(plaintext), &aes_key, (unsigned char *)iv, AES_ENCRYPT);
+}
+
+// Function to perform AES encryption in CFB mode with padding
+void aes_encrypt_cfb(const char *plaintext, const char *key, const char *iv, char *ciphertext) {
+    AES_KEY aes_key;
+    AES_set_encrypt_key((const unsigned char *)key, 128, &aes_key);
+    AES_cfb_encrypt((const unsigned char *)plaintext, (unsigned char *)ciphertext, strlen(plaintext), &aes_key, (unsigned char *)iv, NULL, AES_ENCRYPT);
+}
+
+int main() {
+    const char *key = "0123456789abcdef"; // 128-bit key
+    const char *iv = "0123456789abcdef";  // Initialization vector (for CBC and CFB)
+
+    const char *plaintext = "This is a message for encryption.";
+
+    // ECB mode
+    char ciphertext_ecb[AES_BLOCK_SIZE * ((strlen(plaintext) / AES_BLOCK_SIZE) + 1)];
+    aes_encrypt_ecb(plaintext, key, ciphertext_ecb);
+    printf("ECB Mode - Ciphertext: %s\n", ciphertext_ecb);
+
+    // CBC mode
+    char ciphertext_cbc[AES_BLOCK_SIZE * ((strlen(plaintext) / AES_BLOCK_SIZE) + 1)];
+    aes_encrypt_cbc(plaintext, key, iv, ciphertext_cbc);
+    printf("CBC Mode
