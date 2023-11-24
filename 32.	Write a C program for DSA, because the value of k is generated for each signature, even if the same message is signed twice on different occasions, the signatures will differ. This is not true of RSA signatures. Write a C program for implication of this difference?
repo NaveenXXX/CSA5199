@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <openssl/dsa.h>
+#include <openssl/rsa.h>
+#include <openssl/pem.h>
+
+void generate_dsa_signature(const char *message, DSA *dsa_key) {
+    unsigned char signature[DSA_size(dsa_key)];
+    unsigned int signature_length;
+
+    DSA_sign(0, (const unsigned char *)message, strlen(message), signature, &signature_length, dsa_key);
+
+    printf("DSA Signature: ");
+    for (unsigned int i = 0; i < signature_length; i++) {
+        printf("%02x", signature[i]);
+    }
+    printf("\n");
+}
+
+void generate_rsa_signature(const char *message, RSA *rsa_key) {
+    unsigned char signature[RSA_size(rsa_key)];
+    unsigned int signature_length;
+
+    RSA_sign(NID_sha256, (const unsigned char *)message, strlen(message), signature,
