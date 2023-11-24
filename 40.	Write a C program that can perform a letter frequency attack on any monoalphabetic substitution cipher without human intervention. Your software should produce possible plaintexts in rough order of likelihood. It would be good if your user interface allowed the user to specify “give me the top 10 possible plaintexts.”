@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+// Define the size of the alphabet
+#define ALPHABET_SIZE 26
+
+// Function to count the frequency of each letter in the given text
+void countLetterFrequency(const char *text, int frequency[ALPHABET_SIZE]) {
+    for (size_t i = 0; i < strlen(text); i++) {
+        char c = tolower(text[i]);
+        if (isalpha(c)) {
+            frequency[c - 'a']++;
+        }
+    }
+}
+
+// Function to decrypt the ciphertext using a given key
+void decrypt(const char *ciphertext, const int key[ALPHABET_SIZE], char *plaintext) {
+    for (size_t i = 0; i < strlen(ciphertext); i++) {
+        char c = tolower(ciphertext[i]);
+        if (isalpha(c)) {
+            char decryptedChar = 'a' + key[c - 'a'];
+            plaintext[i] = isupper(ciphertext[i]) ? toupper(decryptedChar) : decryptedChar;
+        } else {
+            plaintext[i] = ciphertext[i];
+        }
+    }
+    plaintext[strlen(ciphertext)] = '\0';
+}
+
+// Function to print the top N possible plaintexts based on letter frequency
+void printTopPlaintexts(const char *ciphertext, int topN) {
+    int frequency[ALPHABET_SIZE] = {0};
+
+    // Count letter frequency in the ciphertext
+    countLetterFrequency(ciphertext, frequency);
+
+    // Sort the letters by frequency
+    int sortedIndex[ALPHABET_SIZE];
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        sortedIndex[i] = i;
+    }
+
+    for (int i = 0; i < ALPHABET_SIZE - 1; i++) {
+        for (int j = i + 1; j < ALPHABET_SIZE; j++) {
+            if (frequency[sortedIndex[j]] > frequency[sortedIndex[i]]) {
+                // Swap indices
+                int temp = sortedIndex[i];
+                sortedIndex[i] = sortedIndex[j];
+                sortedIndex[j] = temp;
+            }
+        }
+    }
+
+    // Generate possible plaintexts
+    for (int k = 0; k < topN; k++) {
+        int key[ALPHABET_SIZE] = {0};
+
+        // Create a key based on the sorted frequency
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            key[sortedIndex[i]] = (i + 26 - (sortedIndex[i] - 'e')) % 26;
+        }
+
+        // Decrypt the ciphertext using the generated key
+        char plaintext[1000];
+        decrypt(ciphertext, key, plaintext);
+
+        // Print the plaintext and its likelihood
+        printf("Plaintext #%d (Likelihood: %d):\n%s\n\n", k + 1, frequency[sortedIndex[k]], plaintext);
+    }
+}
+
+int main() {
+    char ciphertext[1000];
+    int topN;
+
+    // Get the ciphertext from the user
+    printf("Enter the ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = '\0'; // Remove newline character
+
+    // Get the top N plaintexts from the user
+    printf("Enter the number of top plaintexts to display: ");
+    scanf("%d", &topN);
+
+    // Perform the letter frequency attack and print the top N possible plaintexts
+    printTopPlaintexts(ciphertext, topN);
+
+    return 0;
+}
