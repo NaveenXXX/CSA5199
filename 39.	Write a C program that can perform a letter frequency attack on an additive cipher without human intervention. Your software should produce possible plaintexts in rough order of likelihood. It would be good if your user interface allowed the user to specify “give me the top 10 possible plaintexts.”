@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define ALPHABET_SIZE 26
+
+// Function to count the frequency of each letter in the given text
+void countLetterFrequency(const char *text, int frequency[ALPHABET_SIZE]) {
+    for (size_t i = 0; i < strlen(text); i++) {
+        char c = tolower(text[i]);
+        if (isalpha(c)) {
+            frequency[c - 'a']++;
+        }
+    }
+}
+
+// Function to decrypt the ciphertext using a given shift value
+void decrypt(const char *ciphertext, int shift, char *plaintext) {
+    for (size_t i = 0; i < strlen(ciphertext); i++) {
+        char c = tolower(ciphertext[i]);
+        if (isalpha(c)) {
+            char decryptedChar = 'a' + (c - 'a' - shift + ALPHABET_SIZE) % ALPHABET_SIZE;
+            plaintext[i] = isupper(ciphertext[i]) ? toupper(decryptedChar) : decryptedChar;
+        } else {
+            plaintext[i] = ciphertext[i];
+        }
+    }
+    plaintext[strlen(ciphertext)] = '\0';
+}
+
+// Function to print the top N possible plaintexts based on letter frequency
+void printTopPlaintexts(const char *ciphertext, int topN) {
+    int frequency[ALPHABET_SIZE] = {0};
+
+    // Count letter frequency in the ciphertext
+    countLetterFrequency(ciphertext, frequency);
+
+    // Find the most frequent letter in the ciphertext
+    int maxFrequency = 0;
+    int maxIndex = 0;
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        if (frequency[i] > maxFrequency) {
+            maxFrequency = frequency[i];
+            maxIndex = i;
+        }
+    }
+
+    // Calculate the shift value based on the most frequent letter's position in the alphabet
+    int shift = (maxIndex + ALPHABET_SIZE - ('e' - 'a')) % ALPHABET_SIZE;
+
+    // Generate possible plaintexts
+    for (int k = 0; k < topN; k++) {
+        // Decrypt the ciphertext using the calculated shift value
+        char plaintext[1000];
+        decrypt(ciphertext, shift, plaintext);
+
+        // Print the plaintext and its likelihood
+        printf("Plaintext #%d (Shift: %d, Likelihood: %d):\n%s\n\n", k + 1, shift, maxFrequency, plaintext);
+
+        // Update shift for the next iteration
+        shift = (shift + 1) % ALPHABET_SIZE;
+    }
+}
+
+int main() {
+    char ciphertext[1000];
+    int topN;
+
+    // Get the ciphertext from the user
+    printf("Enter the ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = '\0'; // Remove newline character
+
+    // Get the top N plaintexts from the user
+    printf("Enter the number of top plaintexts to display: ");
+    scanf("%d", &topN);
+
+    // Perform the letter frequency attack and print the top N possible plaintexts
+    printTopPlaintexts(ciphertext, topN);
+
+    return 0;
+}
