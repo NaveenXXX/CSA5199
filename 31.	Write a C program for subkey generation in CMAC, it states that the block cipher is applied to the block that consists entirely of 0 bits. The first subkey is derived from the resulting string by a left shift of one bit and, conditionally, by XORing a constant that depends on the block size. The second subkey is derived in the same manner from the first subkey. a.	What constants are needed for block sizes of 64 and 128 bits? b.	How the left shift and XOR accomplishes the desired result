@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+
+void generateSubkeys(const unsigned char *key, unsigned char *subkey1, unsigned char *subkey2) {
+
+    const unsigned char const_Rb_64 = 0x1B;
+    const unsigned char const_Rb_128 = 0x87;
+
+    
+    memcpy(subkey1, key, 16); 
+
+
+    if ((key[0] & 0x80) == 0) {
+        for (int i = 0; i < 15; i++) {
+            subkey1[i] = (subkey1[i] << 1) | (subkey1[i + 1] >> 7);
+        }
+        subkey1[15] = subkey1[15] << 1;
+    } else {
+        
+        for (int i = 0; i < 15; i++) {
+            subkey1[i] = (subkey1[i] << 1) | (subkey1[i + 1] >> 7);
+        }
+        subkey1[15] = (subkey1[15] << 1) ^ const_Rb_128;
+    }
+
+  
+    memcpy(subkey2, subkey1, 16);
+
+    if ((subkey1[0] & 0x80) == 0) {
+        for (int i = 0; i < 15; i++) {
+            subkey2[i] = (subkey2[i] << 1) | (subkey2[i + 1] >> 7);
+        }
+        subkey2[15] = subkey2[15] << 1;
+    } else {
+        for (int i = 0; i < 15; i++) {
+            subkey2[i] = (subkey2[i] << 1) | (subkey2[i + 1] >> 7);
+        }
+        subkey2[15] = (subkey2[15] << 1) ^ const_Rb_128;
+    }
+}
+
+int main() {
+
+    unsigned char key[16] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x97, 0x11, 0x2b, 0x7e, 0x15, 0x16};
+
+ 
+    unsigned char subkey1[16];
+    unsigned char subkey2[16];
+
+
+    generateSubkeys(key, subkey1, subkey2);
+
+
+    printf("Subkey 1: ");
+    for (int i = 0; i < 16; i++) {
+        printf("%02x ", subkey1[i]);
+    }
+    printf("\n");
+
+    printf("Subkey 2: ");
+    for (int i = 0; i < 16; i++) {
+        printf("%02x ", subkey2[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
