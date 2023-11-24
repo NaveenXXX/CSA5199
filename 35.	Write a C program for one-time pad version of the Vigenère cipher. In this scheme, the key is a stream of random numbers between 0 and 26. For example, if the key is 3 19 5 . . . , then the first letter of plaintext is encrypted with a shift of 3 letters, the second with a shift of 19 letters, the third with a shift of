@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <time.h>
+
+// Function to generate a random key stream
+void generateRandomKey(int key[], int length) {
+    for (int i = 0; i < length; i++) {
+        key[i] = rand() % 26; // Generate a random number between 0 and 25
+    }
+}
+
+// Function to perform one-time pad Vigenère encryption
+void encryptVigenere(const char *plaintext, const int key[], char *ciphertext) {
+    size_t length = strlen(plaintext);
+
+    for (size_t i = 0; i < length; i++) {
+        if (isalpha(plaintext[i])) {
+            char base = isupper(plaintext[i]) ? 'A' : 'a';
+            ciphertext[i] = (plaintext[i] - base + key[i]) % 26 + base;
+        } else {
+            ciphertext[i] = plaintext[i];
+        }
+    }
+
+    ciphertext[length] = '\0';
+}
+
+// Function to perform one-time pad Vigenère decryption
+void decryptVigenere(const char *ciphertext, const int key[], char *decryptedtext) {
+    size_t length = strlen(ciphertext);
+
+    for (size_t i = 0; i < length; i++) {
+        if (isalpha(ciphertext[i])) {
+            char base = isupper(ciphertext[i]) ? 'A' : 'a';
+            decryptedtext[i] = (ciphertext[i] - base - key[i] + 26) % 26 + base;
+        } else {
+            decryptedtext[i] = ciphertext[i];
+       
